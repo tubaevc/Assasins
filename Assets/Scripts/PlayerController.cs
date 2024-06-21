@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 4f;
+    [SerializeField] public float movementSpeed = 4f;
     [SerializeField] private MainCameraController _mainCameraController;
-    [SerializeField] private float rotSpeed = 600f;
+    [SerializeField] public float rotSpeed = 600f;
     private Quaternion requiredRotation;
     [SerializeField] private Animator _animator;
     [SerializeField] private CharacterController _characterController;
@@ -17,8 +17,17 @@ public class PlayerController : MonoBehaviour
     private bool onSurface;
     [SerializeField] private float fallingSpeed;
     [SerializeField] private Vector3 moveDir;
+
+    [SerializeField] private bool playerControl = true;
+
     private void Update()
     {
+        PlayerMovement();
+        if (!playerControl)
+        {
+            return;
+        }
+
         if (onSurface)
         {
             fallingSpeed = 0.5f;
@@ -30,7 +39,6 @@ public class PlayerController : MonoBehaviour
 
         var velocity = moveDir * movementSpeed;
         velocity.y = fallingSpeed;
-        PlayerMovement();
         SurfaceCheck();
     }
 
@@ -38,14 +46,15 @@ public class PlayerController : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        
-        float movementAmount = Mathf.Clamp01(Mathf.Abs(horizontal)  +  Mathf.Abs(vertical)); //clamp 0-1 animator blendtree treshold
-        
+
+        float movementAmount =
+            Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical)); //clamp 0-1 animator blendtree treshold
+
         var movementInput = new Vector3(horizontal, 0f, vertical).normalized;
 
         var movementDirection = _mainCameraController.flatRotation * movementInput;
-        
-           _characterController.Move(movementDirection * movementSpeed * Time.deltaTime) ;
+
+        _characterController.Move(movementDirection * movementSpeed * Time.deltaTime);
         if (movementAmount > 0)
         {
             requiredRotation = Quaternion.LookRotation(movementDirection);
@@ -54,12 +63,23 @@ public class PlayerController : MonoBehaviour
         movementDirection = moveDir;
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, requiredRotation, rotSpeed * Time.deltaTime);
-        
-        _animator.SetFloat("movementValue",movementAmount,0.2f,Time.deltaTime);
+
+        _animator.SetFloat("movementValue", movementAmount, 0.2f, Time.deltaTime);
     }
 
     private void SurfaceCheck()
     {
         onSurface = Physics.CheckSphere(transform.TransformPoint(surfaceCheckOffset), surfaceCheckRadius, surfaceMask);
+    }
+
+    public void SetControl(bool hasControl)
+    {
+        this.playerControl = hasControl;
+        _characterController.enabled = hasControl;
+        if (!hasControl)
+        {
+            _animator.SetFloat("movementValue", 0f);
+            requiredRotation = transform.rotation;
+        }
     }
 }

@@ -16,6 +16,7 @@ public class Fistfight : MonoBehaviour
     [SerializeField] private float giveDamage = 10f;
     [SerializeField] private float attackRadius;
     [SerializeField] private LayerMask knightLayer;
+    [SerializeField] private Inventory Inventory;
 
     [SerializeField] private Transform LeftHandPunch;
     [SerializeField] private Transform RightHandPunch;
@@ -39,6 +40,9 @@ public class Fistfight : MonoBehaviour
         {
             _playerController.movementSpeed = 4f;
             _animator.SetBool("FistFightActive", false);
+            Inventory.fistFightMode = false;
+            timer = 0f; //after 5 sec. to can be active again
+            this.gameObject.GetComponent<Fistfight>().enabled = false;
         }
 
         FistFightModes();

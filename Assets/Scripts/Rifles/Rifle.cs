@@ -13,8 +13,8 @@ public class Rifle : MonoBehaviour
 
     //ammo
     [SerializeField] private int maxAmmo = 1;
-    [SerializeField] private int presentAmmo;
-    [SerializeField] private int mag;
+    [SerializeField] public int presentAmmo;
+    [SerializeField] public int mag;
     [SerializeField] private float reloadingTime;
     [SerializeField] private bool setReloading;
     [SerializeField] private Animator _animator;

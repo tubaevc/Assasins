@@ -22,11 +22,11 @@ public class PlayerController : MonoBehaviour
     
     //health & energy
     [SerializeField] private float playerHealth = 200f;
-    [SerializeField] private float presentHealth;
+    [SerializeField] public float presentHealth;
     [SerializeField] private float playerEnergy = 100f;
-    [SerializeField] private float presentEnergy;
-    [SerializeField] private HealthBar _healthBar;
-    [SerializeField] private EnergyBar _energyBar;
+    [SerializeField] public float presentEnergy;
+    [SerializeField] public HealthBar _healthBar;
+    [SerializeField] public EnergyBar _energyBar;
     [SerializeField] private GameObject _damageIndicator;
 
 

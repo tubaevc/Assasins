@@ -9,16 +9,15 @@ public class GrenadeThrower : MonoBehaviour
     [SerializeField] private Transform grenadeArea;
     [SerializeField] private GameObject grenadePrefab;
     [SerializeField] private Animator _animator;
-
+    [SerializeField] private GameManager _gameManager;
     private void Update()
     {
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     //left click throw
-        //     StartCoroutine(GrenadeAnim());
-        // }
-        
-        
+        if (Input.GetMouseButtonDown(0) &&  _gameManager.numOfGrenades>0)
+        {
+            //left click throw
+            StartCoroutine(GrenadeAnim());
+            _gameManager.numOfGrenades -= 1;
+        }
     }
 
     private void ThrowGrenade()

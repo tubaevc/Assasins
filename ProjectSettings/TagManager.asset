@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Barrier
   - ShortBarrier
+  - Sword
+  - Grenade
+  - Energy
+  - Health
+  - Rifle
   layers:
   - Default
   - TransparentFX

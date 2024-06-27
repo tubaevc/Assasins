@@ -26,10 +26,10 @@ public class MainCameraController : MonoBehaviour
         invertXValue = (invertX) ? -1 : 1;
         invertYValue = (invertY) ? -1 : 1;
         
-        rotationX += Input.GetAxis("Mouse Y")*invertYValue*rotSpeed;
+        rotationX += SimpleInput.GetAxis("Mouse Y")*invertYValue*rotSpeed;
         
         rotationX = Mathf.Clamp(rotationX, minVerAngle, maxVerAngle);
-        rotationY += Input.GetAxis("Mouse X")*invertXValue*rotSpeed;
+        rotationY += SimpleInput.GetAxis("Mouse X")*invertXValue*rotSpeed;
 
         var targetRotation = Quaternion.Euler(rotationX, rotationY, 0);
         var focusPos = target.position + new Vector3(framingBalance.x, framingBalance.y);

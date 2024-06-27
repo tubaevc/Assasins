@@ -43,11 +43,11 @@ public class PlayerController : MonoBehaviour
         if (presentEnergy<=0)
         {
             movementSpeed = 2f;
-            if (!Input.GetButton("Horizontal") || !Input.GetButton("Vertical"))
+            if (!SimpleInput.GetButton("Horizontal") || !SimpleInput.GetButton("Vertical"))
             {
                 _animator.SetFloat("movementValue", 0f);
             }
-            if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+            if (SimpleInput.GetButton("Horizontal") || SimpleInput.GetButton("Vertical"))
             {
                 _animator.SetFloat("movementValue", 0.5f);
                 StartCoroutine(SetEnergy());
@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        SurfaceCheck();
 
         if (onSurface)
         {
@@ -77,16 +78,15 @@ public class PlayerController : MonoBehaviour
         {
             fallingSpeed += Physics.gravity.y * Time.deltaTime;
         }
-
+        
         var velocity = moveDir * movementSpeed;
         velocity.y = fallingSpeed;
-        SurfaceCheck();
     }
 
     private void PlayerMovement()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = SimpleInput.GetAxis("Horizontal");
+        float vertical = SimpleInput.GetAxis("Vertical");
 
         float movementAmount =
             Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical)); //clamp 0-1 animator blendtree treshold
